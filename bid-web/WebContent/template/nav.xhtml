@@ -1,0 +1,21 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets">
+                
+                <h:form rendered="#{authBean.userType.equals('Admin')}">
+                	<h:panelGrid columns="1">
+                		<h:commandLink action="/pages/admin/home" value="DASHBOARD" />
+                		<h:commandLink action="/pages/admin/category/manage" value="CATEGORIES" />
+                		<h:commandLink action="/pages/admin/product/manage" value="PRODUCTS" />
+                	</h:panelGrid>
+                </h:form>
+                 <h:form rendered="#{authBean.userType.equals('Customer')}">
+                	<h:panelGrid columns="1">
+                		<h:commandLink action="/pages/customer/home" value="SHOP" />
+                		<h:commandLink action="/pages/customer/profile" value="PROFILE" />
+                	</h:panelGrid>
+                </h:form>
+                	
+
+</ui:composition>

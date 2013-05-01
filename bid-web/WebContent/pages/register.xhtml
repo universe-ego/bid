@@ -1,0 +1,39 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml">
+                	
+			<ui:define name="pageTitle">register</ui:define>		
+			<ui:define name="pageContent">
+			
+			<h2>Customer Registration</h2>
+			<h:form id="register">
+				<h:panelGrid columns="3">
+					<h:outputText  value="Login*:" />
+					<h:inputText id="login_input" value="#{registerBean.customer.login}" required="true" requiredMessage="login is required" validator="#{registerBean.validateLogin}"/>
+					<h:message for="login_input" styleClass="error"/>
+					
+					<h:outputText  value="Email*:" />
+					<h:inputText  id="email_input" value="#{registerBean.customer.email}" required="true" requiredMessage="email is required"/>
+					<h:message for="email_input" styleClass="error"/>
+					
+					<h:outputText  value="Password*:" />
+					<h:inputSecret  id="password_input" value="#{registerBean.customer.password}" required="true" requiredMessage="password is required">
+						<f:validator validatorId="passwordValidator"/>
+						<f:attribute name="confirm" value="#{confirm}"/>
+					</h:inputSecret>
+					<h:message for="password_input" styleClass="error"/>
+					
+					<h:outputText  value="Confirm password*:" />
+					<h:inputSecret  id="confirm_password_input" binding="#{confirm}" required="true" requiredMessage="password confirmation is required"/>
+					<h:message for="confirm_password_input" styleClass="error"/>
+					
+				</h:panelGrid>
+				<h:commandButton immediate="true" action="#{registerBean.doCancel}" value="CANCEL" />
+				<h:commandButton action="#{registerBean.doRegiter}" value="REGISTER" />
+				<h:message for="register" styleClass="info"/>
+			</h:form>
+			
+			</ui:define>
+</ui:composition>

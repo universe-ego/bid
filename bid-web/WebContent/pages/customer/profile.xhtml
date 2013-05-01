@@ -1,0 +1,59 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                template="/template/template.xhtml">
+                	
+			<ui:define name="pageTitle">profile</ui:define>		
+			<ui:define name="pageContent">
+			
+			<h2>Customer Profile</h2>
+			<h:form id="minimum">
+				<h:panelGrid columns="2">
+				
+					<h:outputText  value="Login:" />
+					<h:outputText  value="#{profileBean.customer.login}" />
+					
+					
+					<h:outputText  value="Email:" />
+					<h:outputText   value="#{profileBean.customer.email}" />
+					
+					
+					
+					
+					
+					
+				</h:panelGrid>
+				<h:commandLink  action="#{profileBean.doMore}" value="MORE>>" />
+				
+				
+			</h:form>
+			<h:form id="details" rendered="#{profileBean.detailsFormDisplayed}">
+				<h:panelGrid columns="2">
+				
+					<h:outputText  value="Firstname:" />
+					<h:inputText  value="#{profileBean.customer.firstname}" />
+					
+					
+					<h:outputText  value="Lastname:" />
+					<h:inputText   value="#{profileBean.customer.lastname}" />
+					
+					<h:outputText  value="Birth Date:" />
+					<h:inputText   value="#{profileBean.customer.birthDate}" />
+					
+					<h:outputText  value="Phone:" />
+					<h:inputText   value="#{profileBean.customer.phoneNumber}" />
+					
+					
+					
+					
+					
+					
+				</h:panelGrid>
+				<h:commandButton immediate="true" action="#{profileBean.doSave}" value="SAVE" />
+				
+				<h:message for="details" styleClass="info"/>
+			</h:form>
+			
+			</ui:define>
+</ui:composition>
