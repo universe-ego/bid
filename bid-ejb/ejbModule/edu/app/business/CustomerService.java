@@ -18,6 +18,10 @@ public class CustomerService implements CustomerServiceLocal {
 	public void saveOrUpdate(Customer customer) {
 		em.merge(customer);
 	}
+
+	public Customer findCustomerById(int id) {
+		return em.find(Customer.class, id);
+	}
 	
 	
 

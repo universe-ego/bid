@@ -12,4 +12,5 @@ public interface AuthenticationServiceLocal {
 	User authenticate(String login, String password);
 	boolean loginExists(String login);
 	User findUserByLogin(String login);
+	
 }

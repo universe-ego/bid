@@ -8,5 +8,6 @@ import edu.app.persistence.Customer;
 public interface CustomerServiceLocal {
 	
 	void saveOrUpdate(Customer customer);
+	Customer findCustomerById(int id);
 
 }

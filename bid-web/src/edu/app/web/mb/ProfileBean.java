@@ -1,24 +1,35 @@
 package edu.app.web.mb;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.ViewScoped;
+import javax.faces.component.UIComponent;
+import javax.faces.context.FacesContext;
+import javax.faces.validator.ValidatorException;
 
+import edu.app.business.AuthenticationServiceLocal;
 import edu.app.business.CustomerServiceLocal;
 import edu.app.persistence.Customer;
-import edu.app.persistence.User;
 
 @ManagedBean
-@RequestScoped
-public class ProfileBean {
+@ViewScoped
+public class ProfileBean implements Serializable{
 	
+	private static final long serialVersionUID = -1895346853573478117L;
+
 	@EJB
 	private CustomerServiceLocal customerServiceLocal;
+	
+	@EJB
+	private AuthenticationServiceLocal authenticationServiceLocal;
 
-	@ManagedProperty("#{authBean.user}")
-	private User user;
+	@ManagedProperty("#{authBean.user.id}")
+	private int userId;
 	
 	private Customer customer;
 	
@@ -26,12 +37,7 @@ public class ProfileBean {
 
 	@PostConstruct
 	public void init(){
-		customer = new Customer();
-		customer.setId(user.getId());
-		customer.setLogin(user.getLogin());
-		customer.setPassword(user.getPassword());
-		customer.setEmail(user.getEmail());
-		editMode = false;
+		customer = customerServiceLocal.findCustomerById(userId);
 	}
 	
 	public ProfileBean() {
@@ -44,20 +50,24 @@ public class ProfileBean {
 		return navigateTo;
 	}
 	
+	public String doCancel(){
+		String navigateTo = null;
+		editMode = false;
+		return navigateTo;
+	}
+	
 	public String enableEdition(){
 		String navigateTo = null;
 		editMode = true;
 		return navigateTo;
 	}
 
-	
-
-	public User getUser() {
-		return user;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public Customer getCustomer() {
@@ -76,7 +86,20 @@ public class ProfileBean {
 		this.editMode = editMode;
 	}
 	
-	
+	public void validateLogin(FacesContext context, UIComponent component, Object toValidate)
+			throws ValidatorException {
+		String login = null;
+		if(toValidate instanceof String){
+			login = (String) toValidate;
+		}
+		if (login.isEmpty() || login == null || login.equals(customer.getLogin())) {
+			return;
+		}
+		boolean loginAlreadyInUse = authenticationServiceLocal.loginExists(login);
+		if(loginAlreadyInUse){
+			throw new ValidatorException(new FacesMessage("login already in use!"));
+		}
+	}
 	
 	
 }

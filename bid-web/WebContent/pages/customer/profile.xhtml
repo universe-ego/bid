@@ -7,7 +7,7 @@
 	<ui:define name="pageTitle">profile</ui:define>
 	<ui:define name="pageContent">
 
-		<h:form>
+		<h:form id="profile">
 			
 				<h2>Your Profile</h2>
 			
@@ -43,29 +43,56 @@
 			
 			
 			
-			<h:panelGrid columns="2" rendered="#{profileBean.editMode}">
+			<h:panelGrid columns="3" rendered="#{profileBean.editMode}">
 
-				<h:outputText value="Login:" />
-				<h:inputText value="#{profileBean.customer.login}" />
+				<h:outputText id="label_login" value="Login" />
+         		<h:inputText id="input_login" disabled="true" value="#{profileBean.customer.login}" required="true" requiredMessage="login is required" validator="#{profileBean.validateLogin}">
+         			<f:ajax event="blur" execute="@this" render="msg_input_login"/>
+         		</h:inputText>
+         		<h:message id="msg_input_login" for="input_login" styleClass="error" />
+         		
+         		
+         		<h:outputText id="label_email" value="Your email"  />
+         		<h:inputText id="input_email" value="#{profileBean.customer.email}" required="true" requiredMessage="email is required" validatorMessage="invalid email address">
+         			<f:ajax event="blur" execute="@this" render="msg_input_email"/>
+         			<f:validateRegex pattern="^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$" />
+         		</h:inputText>
+         		<h:message id="msg_input_email" for="input_email" styleClass="error"/>
+         		
+         		<h:outputText id="label_firstname" value="Firstname"  />
+         		<h:inputText id="input_firstname" value="#{profileBean.customer.firstname}"   validatorMessage="between 2 and 20 characters">
+         			<f:validateLength minimum="2" maximum="20"/>
+         			<f:ajax event="blur" execute="@this" render="msg_input_firstname"/>
+         		</h:inputText>
+         		<h:message id="msg_input_firstname" for="input_firstname" styleClass="error"/>
+         		
+         		<h:outputText id="label_lastname" value="Lastname" />
+         		<h:inputText id="input_lastname" value="#{profileBean.customer.lastname}"  validatorMessage="between 2 and 20 characters">
+         			<f:validateLength minimum="2" maximum="20"/>
+         			<f:ajax event="blur" execute="@this" render="msg_input_lastname"/>
+         		</h:inputText>
+         		<h:message id="msg_input_lastname" for="input_lastname" styleClass="error"/>
+         		
+         		<h:outputText id="label_birth_date" value="Date of birth" />
+         		<h:inputText id="input_birth_date" value="#{profileBean.customer.birthDate}"   converterMessage="ex:24/09/2009">
+         			<f:ajax event="blur" execute="@this" render="msg_input_birth_date"/>
+         			<f:convertDateTime type="date" pattern="dd/MM/yyyy"/>
+         		</h:inputText>
+         		<h:message id="msg_input_birth_date" for="input_birth_date" styleClass="error"/>
+         		
+         		<h:outputText id="label_phone_number" value="Phone number"  />
+         		<h:inputText id="input_phone_number" value="#{profileBean.customer.phoneNumber}" >
+         			<f:ajax event="blur" execute="@this" render="msg_input_phone_number"/>
+         		</h:inputText>
+         		<h:message  id="msg_input_phone_number" for="input_phone_number" styleClass="error"/>
 
-
-				<h:outputText value="Email:" />
-				<h:inputText value="#{profileBean.customer.email}" />
-
-				<h:outputText value="Firstname:" />
-				<h:inputText value="#{profileBean.customer.firstname}" />
-
-				<h:outputText value="Lastname:" />
-				<h:inputText value="#{profileBean.customer.lastname}" />
-
-				<h:outputText value="Birth Date:" />
-				<h:inputText value="#{profileBean.customer.birthDate}" />
-
-				<h:outputText value="Phone:" />
-				<h:inputText value="#{profileBean.customer.phoneNumber}" />
-
-				<h:commandButton immediate="true" action="#{profileBean.doSave}" value="SAVE" />
+				<h:commandButton immediate="true" action="#{profileBean.doCancel}" value="CANCEL" />
+				<h:commandButton  action="#{profileBean.doSave}" value="SAVE" />
 			</h:panelGrid>
+			<h:outputScript>
+				$("#profile\\:input_birth_date").mask("99/99/9999");
+				$("#profile\\:input_phone_number").mask("99-99-99-99");
+			</h:outputScript>
 		</h:form>
 
 
