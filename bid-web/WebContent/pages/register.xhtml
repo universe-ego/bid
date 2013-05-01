@@ -11,12 +11,17 @@
 			<h:form id="register">
 				<h:panelGrid columns="3">
 					<h:outputText  value="Login*:" />
-					<h:inputText id="login_input" value="#{registerBean.customer.login}" required="true" requiredMessage="login is required" validator="#{registerBean.validateLogin}"/>
-					<h:message for="login_input" styleClass="error"/>
+					<h:inputText id="login_input" value="#{registerBean.customer.login}" required="true" requiredMessage="login is required" validator="#{registerBean.validateLogin}">
+						<f:ajax event="blur" execute="@this" render="msg_login_input"/>
+					</h:inputText>	
+					<h:message id="msg_login_input" for="login_input" styleClass="error"/>
 					
 					<h:outputText  value="Email*:" />
-					<h:inputText  id="email_input" value="#{registerBean.customer.email}" required="true" requiredMessage="email is required"/>
-					<h:message for="email_input" styleClass="error"/>
+					<h:inputText  id="email_input" value="#{registerBean.customer.email}" required="true" requiredMessage="email is required" validatorMessage="invalid email">
+						<f:ajax event="blur" execute="@this" render="msg_mail_input"/>
+						<f:validateRegex pattern="^[A-Za-z0-9._%-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}$"/>
+					</h:inputText>
+					<h:message id="msg_mail_input" for="email_input" styleClass="error"/>
 					
 					<h:outputText  value="Password*:" />
 					<h:inputSecret  id="password_input" value="#{registerBean.customer.password}" required="true" requiredMessage="password is required">

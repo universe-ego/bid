@@ -3,6 +3,7 @@ package edu.app.web.mb;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
+import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.component.UIComponent;
 import javax.faces.context.FacesContext;
@@ -23,6 +24,9 @@ public class RegisterBean{
 	@EJB
 	private CustomerServiceLocal customerServiceLocal;
 	
+	@ManagedProperty("#{authBean}")
+	private AuthenticationBean authenticationBean;
+	
 	private Customer customer = new Customer();
 	
 	
@@ -32,24 +36,19 @@ public class RegisterBean{
 	public String doRegiter(){
 		String navigateTo = null;
 		customerServiceLocal.saveOrUpdate(customer);
-		FacesContext.getCurrentInstance().addMessage("register",new FacesMessage("Successfully registred!"));
+		authenticationBean.setUser(customer);
+		navigateTo = authenticationBean.login();
 		return navigateTo;
 	}
 	
 	public String doCancel(){
 		String navigateTo = null;
-		customer = new Customer();
+		navigateTo = "/welcome";
 		return navigateTo;
 	}
 
 	
 	
-	public Customer getCustomer() {
-		return customer;
-	}
-	public void setCustomer(Customer customer) {
-		this.customer = customer;
-	}
 
 	public void validateLogin(FacesContext context, UIComponent component, Object toValidate)
 			throws ValidatorException {
@@ -65,6 +64,23 @@ public class RegisterBean{
 			throw new ValidatorException(new FacesMessage("login already in use!"));
 		}
 	}
+
+	public Customer getCustomer() {
+		return customer;
+	}
+	public void setCustomer(Customer customer) {
+		this.customer = customer;
+	}
+	
+	public AuthenticationBean getAuthenticationBean() {
+		return authenticationBean;
+	}
+
+	public void setAuthenticationBean(AuthenticationBean authenticationBean) {
+		this.authenticationBean = authenticationBean;
+	}
+	
+	
 
 	
 }

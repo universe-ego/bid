@@ -21,9 +21,9 @@ public class ProfileBean {
 	private User user;
 	
 	private Customer customer;
-
-	private boolean detailsFormDisplayed = false;
 	
+	private boolean editMode;
+
 	@PostConstruct
 	public void init(){
 		customer = new Customer();
@@ -31,6 +31,7 @@ public class ProfileBean {
 		customer.setLogin(user.getLogin());
 		customer.setPassword(user.getPassword());
 		customer.setEmail(user.getEmail());
+		editMode = false;
 	}
 	
 	public ProfileBean() {
@@ -39,24 +40,17 @@ public class ProfileBean {
 	public String doSave(){
 		String navigateTo = null;
 		customerServiceLocal.saveOrUpdate(customer);
+		editMode = false;
 		return navigateTo;
 	}
 	
-	public String doMore(){
+	public String enableEdition(){
 		String navigateTo = null;
-		detailsFormDisplayed  = true;
+		editMode = true;
 		return navigateTo;
 	}
 
 	
-
-	public boolean isDetailsFormDisplayed() {
-		return detailsFormDisplayed;
-	}
-
-	public void setDetailsFormDisplayed(boolean detailsFormDisplayed) {
-		this.detailsFormDisplayed = detailsFormDisplayed;
-	}
 
 	public User getUser() {
 		return user;
@@ -73,7 +67,14 @@ public class ProfileBean {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
-	
+
+	public boolean isEditMode() {
+		return editMode;
+	}
+
+	public void setEditMode(boolean editMode) {
+		this.editMode = editMode;
+	}
 	
 	
 	
