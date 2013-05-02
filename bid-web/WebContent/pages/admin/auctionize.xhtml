@@ -1,0 +1,73 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+                
+                <ui:define name="pageTitle">to auction</ui:define>
+                <ui:define name="pageContent">
+                	<h2>Auctionize</h2>
+                	<hr/>
+                	<h3>The product</h3>
+                	<h:panelGrid columns="2">
+						<h:outputText value="name" />
+						<h:outputText value="#{auctionizeBean.auction.product.name}" />
+						<h:outputText value="price" />
+						<h:outputText value="#{auctionizeBean.auction.product.unitCost}" />
+						<h:outputText value="category" />
+						<h:outputText value="#{auctionizeBean.auction.product.category.name}" />
+					</h:panelGrid>
+					
+					<h:form id="auctionize">
+						<h3>To Auction</h3>
+
+						<h:panelGrid columns="3">
+							<h:outputText value="Starting price:" />
+							<h:inputText id="input_starting_price" value="#{auctionizeBean.auction.startingPrice}" required="true" requiredMessage="required">
+								<f:ajax event="blur" execute="@this" render="msg_input_starting_price"/>
+							</h:inputText>
+							<h:message id="msg_input_starting_price" for="input_starting_price" styleClass="error"/>
+							
+							<h:outputText value="Bid Increment:" />
+							<h:inputText id="input_bid_increment" value="#{auctionizeBean.auction.bidPriceIncrement}" required="true" requiredMessage="required">
+								<f:ajax event="blur" execute="@this" render="msg_input_bid_incerement"/>
+							</h:inputText>
+							<h:message id="msg_input_bid_incerement" for="input_bid_increment" styleClass="error"/>
+						
+							<h:outputText value="Start Date:" />
+							<h:inputText id="input_start_date" value="#{auctionizeBean.auction.startDate}" required="true" requiredMessage="required" converterMessage="ex: 24/09/2009 10:30:00">
+								<f:ajax event="blur" execute="@this" render="msg_input_start_date"/>
+								<f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss"/>
+							</h:inputText>
+							<h:message id="msg_input_start_date" for="input_start_date" styleClass="error"/>
+							
+							<h:outputText value="End Date:" />
+							<h:inputText id="input_end_date" value="#{auctionizeBean.auction.endDate}" required="true" requiredMessage="required" converterMessage="ex: 02/10/2009 14:30:00">
+								<f:ajax event="blur" execute="@this" render="msg_input_end_date"/>
+								<f:convertDateTime pattern="dd/MM/yyyy hh:mm:ss"/>
+							</h:inputText>
+							<h:message id="msg_input_end_date" for="input_end_date" styleClass="error"/>
+						
+							<h:outputText value="Period:" />
+							<h:inputText id="input_period" value="#{auctionizeBean.auction.period}" required="true" requiredMessage="required" >
+								<f:ajax event="blur" execute="@this" render="msg_input_period"/>
+							</h:inputText>
+							<h:message id="msg_input_period" for="input_period" styleClass="error" />
+						
+							<h:outputText value="Active:" />
+							<h:selectBooleanCheckbox id="input_active" value="#{auctionizeBean.auction.active}" />
+						
+						</h:panelGrid>
+						<h:commandButton immediate="true" value="CANCEL" action="#{auctionizeBean.doCancel}" />
+						<h:commandButton value="SAVE" action="#{auctionizeBean.doSave}" />
+						<h:outputScript>
+								$("#auctionize\\:input_start_date").mask("99/99/9999 99:99:99");
+								$("#auctionize\\:input_end_date").mask("99/99/9999 99:99:99");
+						</h:outputScript>
+						
+					</h:form>
+						
+                </ui:define>	
+
+</ui:composition>

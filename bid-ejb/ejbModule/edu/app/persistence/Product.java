@@ -153,7 +153,7 @@ public class Product implements Serializable {
 		changeSupport.removePropertyChangeListener(listener);
 	}
 
-	@OneToOne(mappedBy="product")
+	@OneToOne(mappedBy="product", cascade=CascadeType.MERGE)
 	public Auction getAuction() {
 		return auction;
 	}

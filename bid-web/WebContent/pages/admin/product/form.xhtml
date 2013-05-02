@@ -20,9 +20,10 @@
 							<f:selectItems value="#{productBean.selectItemsForCategories}" />
 						</p:selectOneMenu>
 						<p:commandButton immediate="true" actionListener="#{productBean.doCancel}" value="cancel" update=":details"/>
-						<h:panelGrid columns="2">
+						<h:panelGrid columns="3">
 							<p:commandButton actionListener="#{productBean.doDelete}" value="delete" update=":master :details" oncomplete="prodTabW.filter();"/>
 							<p:commandButton actionListener="#{productBean.doSaveOrUpdate}" value="save" update=":master :details" oncomplete="prodTabW.filter();"/>
+							<p:commandButton ajax="false" action="#{productBean.doAuctionize}" value="auctionise" />
 						</h:panelGrid>
 						
 					</h:panelGrid>

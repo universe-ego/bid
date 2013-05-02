@@ -24,6 +24,7 @@ public class Auction implements Serializable {
 	private Date startDate;
 	private Date endDate;
 	private int period;
+	private boolean active;
 	
 	private Product product;
 	
@@ -84,7 +85,16 @@ public class Auction implements Serializable {
 		this.period = period;
 	}
 
+	public boolean isActive() {
+		return active;
+	}
+
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+
 	@OneToOne
+	@JoinColumn(name="product_fk")
 	public Product getProduct() {
 		return product;
 	}

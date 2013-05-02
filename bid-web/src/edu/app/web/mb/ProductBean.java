@@ -7,6 +7,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
+import javax.faces.context.FacesContext;
 import javax.faces.model.SelectItem;
 
 import org.primefaces.event.SelectEvent;
@@ -88,6 +89,13 @@ public class ProductBean {
 	public void onFilter(FilterEvent event){
 		formDisplayed = false;
 	}
+	
+	public String doAuctionize(){
+		String navigateTo = null;
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("productToAuctionize", product);
+		navigateTo = "/pages/admin/auctionize";
+		return navigateTo;
+	}
 
 	public Product getProduct() {
 		return product;
@@ -147,7 +155,7 @@ public class ProductBean {
 	}
 	
 	
-
+	
 	
 	
 }
