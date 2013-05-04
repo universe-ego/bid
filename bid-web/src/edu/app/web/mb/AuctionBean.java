@@ -49,6 +49,16 @@ public class AuctionBean implements Serializable {
 	@PostConstruct
 	public void init() {
 		customer = customerServiceLocal.findCustomerById(userId);
+		resolveOwnership();
+	}
+
+
+	public void doBid(Auction auction) {
+		bidServiceLocal.placeBid(customer, auction);
+		resolveOwnership();
+	}
+
+	private void resolveOwnership() {
 		liveAuctions = auctionServiceLocal.findLiveAuctions();
 		ownership = new HashMap<Auction, String>();
 		for(Auction auction : liveAuctions){
@@ -61,11 +71,6 @@ public class AuctionBean implements Serializable {
 			}
 		}
 	}
-
-	public void doBid(Auction auction) {
-		bidServiceLocal.placeBid(customer, auction);
-	}
-
 	public List<Auction> getLiveAuctions() {
 		return liveAuctions;
 	}

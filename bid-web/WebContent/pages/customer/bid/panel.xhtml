@@ -4,8 +4,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:p="http://primefaces.org/ui">
 
-	<p:panel id="bid">
-		<h:form>
+	<p:panel >
+		<h:form >
 			<h:panelGrid columns="2">
 				<h:outputText value="Category" />
 				<h:outputText value="#{auction.product.category.name}" />
@@ -21,8 +21,8 @@
 			</h:panelGrid>
 
 			<p:commandButton value="BID"
-				actionListener="#{auctionBean.doBid(auction)}"
-				update="owner currentPrice" />
+							 actionListener="#{auctionBean.doBid(auction)}"
+							 update="@all" />
 		</h:form>
 	</p:panel>
 
