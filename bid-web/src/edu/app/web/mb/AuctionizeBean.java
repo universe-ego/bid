@@ -1,9 +1,10 @@
 package edu.app.web.mb;
 
+import java.io.Serializable;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.RequestScoped;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
@@ -14,8 +15,10 @@ import edu.app.persistence.Product;
 
 @ManagedBean
 @ViewScoped
-public class AuctionizeBean {
+public class AuctionizeBean implements Serializable{
 	
+	private static final long serialVersionUID = -6261830263177502111L;
+
 	@EJB
 	private AuctionServiceLocal  auctionServiceLocal;
 	
