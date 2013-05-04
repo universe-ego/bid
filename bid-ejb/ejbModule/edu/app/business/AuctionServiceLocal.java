@@ -1,5 +1,7 @@
 package edu.app.business;
 
+import java.util.List;
+
 import javax.ejb.Local;
 
 import edu.app.persistence.Auction;
@@ -8,4 +10,5 @@ import edu.app.persistence.Auction;
 public interface AuctionServiceLocal {
 	
 	void saveOrUpdate(Auction auction);
+	List<Auction> findLiveAuctions();
 }

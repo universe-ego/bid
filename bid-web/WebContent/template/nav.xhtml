@@ -12,6 +12,7 @@
                 </h:form>
                  <h:form rendered="#{authBean.userType.equals('Customer')}">
                 	<h:panelGrid columns="1">
+                		<h:commandLink action="/pages/customer/auction/live" value="LIVE AUCTIONS" />
                 		<h:commandLink action="/pages/customer/home" value="SHOP" />
                 		<h:commandLink action="/pages/customer/profile" value="PROFILE" />
                 	</h:panelGrid>

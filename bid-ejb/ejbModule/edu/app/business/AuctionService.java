@@ -1,5 +1,7 @@
 package edu.app.business;
 
+import java.util.List;
+
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -18,6 +20,10 @@ public class AuctionService implements AuctionServiceLocal{
 
 	public void saveOrUpdate(Auction auction) {
 		em.merge(auction);
+	}
+
+	public List<Auction> findLiveAuctions() {
+		return em.createQuery("select a from Auction a where a.active=true").getResultList();
 	}
 	
 	

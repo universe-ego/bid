@@ -25,6 +25,7 @@ public class Auction implements Serializable {
 	private Date endDate;
 	private int period;
 	private boolean active;
+	private double currentPrice;
 	
 	private Product product;
 	
@@ -91,6 +92,16 @@ public class Auction implements Serializable {
 
 	public void setActive(boolean active) {
 		this.active = active;
+	}
+	
+	
+
+	public double getCurrentPrice() {
+		return currentPrice;
+	}
+
+	public void setCurrentPrice(double currentPrice) {
+		this.currentPrice = currentPrice;
 	}
 
 	@OneToOne
