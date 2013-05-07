@@ -17,14 +17,17 @@
 				<h:outputText id="currentPrice" value="#{auction.currentPrice}" />
 				<h:outputText value="Owner:" />
 				<h:outputText id="owner"
-					value="#{auctionBean.ownership.get(auction)}" />
+					value="#{ownershipBean.ownership.get(auction.id)}" />
 			</h:panelGrid>
 
 			<p:commandButton value="BID"
 							 actionListener="#{auctionBean.doBid(auction)}"
-							 update="@all" />
+							  update="@form"/>
 		</h:form>
+		<p:socket channel="/live/#{auction.id}">
+			<p:ajax event="message" listener="#{ownershipBean.resolve}" update="@all"/>
+		</p:socket>
 	</p:panel>
-
+	
 
 </ui:composition>

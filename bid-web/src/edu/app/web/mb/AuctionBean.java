@@ -1,15 +1,16 @@
 package edu.app.web.mb;
 
 import java.io.Serializable;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.ViewScoped;
+
+import org.primefaces.push.PushContext;
+import org.primefaces.push.PushContextFactory;
 
 import edu.app.business.AuctionServiceLocal;
 import edu.app.business.BidServiceLocal;
@@ -22,8 +23,7 @@ import edu.app.persistence.Customer;
 public class AuctionBean implements Serializable {
 
 	private static final long serialVersionUID = 3384387217187855212L;
-	
-	
+
 	@ManagedProperty("#{authBean.user.id}")
 	private int userId;
 
@@ -32,45 +32,34 @@ public class AuctionBean implements Serializable {
 
 	@EJB
 	private CustomerServiceLocal customerServiceLocal;
-	
+
 	@EJB
 	private BidServiceLocal bidServiceLocal;
 
 	private List<Auction> liveAuctions;
 
 	private Customer customer;
-	
-	
-	private Map<Auction, String> ownership;
+
+	@ManagedProperty("#{ownershipBean}")
+	private OwnershipBean ownershipBean;
 
 	public AuctionBean() {
 	}
 
 	@PostConstruct
 	public void init() {
+		liveAuctions = auctionServiceLocal.findLiveAuctions();
 		customer = customerServiceLocal.findCustomerById(userId);
-		resolveOwnership();
+		ownershipBean.resolve();
 	}
-
 
 	public void doBid(Auction auction) {
 		bidServiceLocal.placeBid(customer, auction);
-		resolveOwnership();
+		ownershipBean.resolve();
+		PushContext context = PushContextFactory.getDefault().getPushContext();
+		context.push("/live/"+ auction.getId(),"kl");
 	}
 
-	private void resolveOwnership() {
-		liveAuctions = auctionServiceLocal.findLiveAuctions();
-		ownership = new HashMap<Auction, String>();
-		for(Auction auction : liveAuctions){
-			Customer owner = bidServiceLocal.findOwner(auction);
-			if (owner!=null) {
-				
-				ownership.put(auction, owner.getLogin());
-			} else {
-				ownership.put(auction, "no one!");
-			}
-		}
-	}
 	public List<Auction> getLiveAuctions() {
 		return liveAuctions;
 	}
@@ -95,15 +84,13 @@ public class AuctionBean implements Serializable {
 		this.userId = userId;
 	}
 
-	public Map<Auction, String> getOwnership() {
-		return ownership;
+	public OwnershipBean getOwnershipBean() {
+		return ownershipBean;
 	}
 
-	public void setOwnership(Map<Auction, String> ownership) {
-		this.ownership = ownership;
+	public void setOwnershipBean(OwnershipBean ownershipBean) {
+		this.ownershipBean = ownershipBean;
 	}
-
-	
 	
 	
 
