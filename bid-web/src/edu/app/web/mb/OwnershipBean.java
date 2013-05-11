@@ -10,6 +10,9 @@ import javax.ejb.EJB;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 
+import org.primefaces.push.PushContext;
+import org.primefaces.push.PushContextFactory;
+
 import edu.app.business.AuctionServiceLocal;
 import edu.app.business.BidServiceLocal;
 import edu.app.persistence.Auction;
@@ -45,6 +48,11 @@ public class OwnershipBean implements Serializable{
 				ownership.put(auction.getId(), "no one!");
 			}
 		}
+	}
+	
+	public synchronized void push(Auction auction){
+		PushContext context = PushContextFactory.getDefault().getPushContext();
+		context.push("/live/"+ auction.getId(),"kl");
 	}
 	
 	public Map<Integer, String> getOwnership() {

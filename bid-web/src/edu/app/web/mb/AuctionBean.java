@@ -56,8 +56,7 @@ public class AuctionBean implements Serializable {
 	public void doBid(Auction auction) {
 		bidServiceLocal.placeBid(customer, auction);
 		ownershipBean.resolve();
-		PushContext context = PushContextFactory.getDefault().getPushContext();
-		context.push("/live/"+ auction.getId(),"kl");
+		ownershipBean.push(auction);
 	}
 
 	public List<Auction> getLiveAuctions() {
