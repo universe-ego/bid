@@ -1,0 +1,27 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://java.sun.com/jsf/html"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:p="http://primefaces.org/ui"
+                template="/template/template.xhtml">
+                	
+			<ui:define name="pageTitle">live auctions</ui:define>		
+			<ui:define name="pageContent">
+				<script type="text/javascript">
+            		//<![CDATA[
+	            		function handleMessage(data) {
+		            		var info = data.split(",");
+		            		var currentPrice = $(PrimeFaces.escapeClientId('j_idt37:0:form:currentPrice'));
+	                		var owner = $(PrimeFaces.escapeClientId('j_idt37:0:form:owner'));
+	                		
+							currentPrice.html(info[0]);
+	                		owner.html(info[1]);
+	            		}
+           	 		//]]>
+        		</script>
+				<ui:repeat  var="auction" value="#{ownershipBean.liveAuctions}" >
+					<ui:include src="/pages/customer/live/bidpanel.xhtml" />
+				</ui:repeat>
+				<p:socket onMessage="handleMessage" channel="/live" />
+			</ui:define>
+</ui:composition>

@@ -11,4 +11,5 @@ public interface AuctionServiceLocal {
 	
 	void saveOrUpdate(Auction auction);
 	List<Auction> findLiveAuctions();
+	Double findCurrentPrice(int id);
 }

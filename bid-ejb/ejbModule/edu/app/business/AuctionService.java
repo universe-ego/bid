@@ -25,6 +25,10 @@ public class AuctionService implements AuctionServiceLocal{
 	public List<Auction> findLiveAuctions() {
 		return em.createQuery("select a from Auction a where a.active=true").getResultList();
 	}
+
+	public Double findCurrentPrice(int id) {
+		return (Double) em.createQuery("select auc.currentPrice from Auction auc where auc.id=:id").setParameter("id", id).getSingleResult();
+	}
 	
 	
 
