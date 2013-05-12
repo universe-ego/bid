@@ -7,21 +7,21 @@
                 	
 			<ui:define name="pageTitle">live auctions</ui:define>		
 			<ui:define name="pageContent">
-				<script type="text/javascript">
-            		//<![CDATA[
-	            		function handleMessage(data) {
-		            		var info = data.split(",");
-		            		var currentPrice = $(PrimeFaces.escapeClientId('j_idt37:0:form:currentPrice'));
-	                		var owner = $(PrimeFaces.escapeClientId('j_idt37:0:form:owner'));
-	                		
-							currentPrice.html(info[0]);
-	                		owner.html(info[1]);
-	            		}
-           	 		//]]>
-        		</script>
-				<ui:repeat  var="auction" value="#{ownershipBean.liveAuctions}" >
-					<ui:include src="/pages/customer/live/bidpanel.xhtml" />
-				</ui:repeat>
-				<p:socket onMessage="handleMessage" channel="/live" />
+				<h:outputScript>
+					#{bidBean.handlersScript}
+				</h:outputScript>
+				
+				<p:dataGrid columns="2" id="auctions" var="auction" value="#{bidBean.liveAuctions}" paginator="true" paginatorPosition="top">
+					<ui:include src="/pages/customer/live/bidder.xhtml" />
+				</p:dataGrid >
+				
+				<h:outputScript>
+					
+						
+					
+            		
+	            		
+           	 			
+        		</h:outputScript>
 			</ui:define>
 </ui:composition>

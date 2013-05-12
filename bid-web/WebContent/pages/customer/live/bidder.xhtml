@@ -20,9 +20,9 @@
 					value="#{ownershipBean.ownership.get(auction.id)}" />
 			</h:panelGrid>
 
-			<p:commandButton value="BID" actionListener="#{ownershipBean.doBid(auction)}"/>
+			<p:commandButton value="BID" actionListener="#{bidBean.doBid(auction)}"/>
 		</h:form>
-		
+		<p:socket onMessage="handleMessage#{auction.id}" channel="/live/#{auction.id}" autoConnect="true" widgetVar="subscriber#{auction.id}" />
 	</p:panel>
 	
 

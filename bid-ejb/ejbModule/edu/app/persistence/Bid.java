@@ -24,15 +24,17 @@ public class Bid implements Serializable {
 	private BidPK pk;
 	private Auction auction;
 	private Customer customer;
+	private Date date;
 	
 	
 
-	public Bid(Auction auction, Customer customer, Date date) {
+	public Bid(Auction auction, Customer customer, int rank) {
 		this.getPk().setAuctionId(auction.getId());
 		this.getPk().setCustomerId(customer.getId());
-		this.getPk().setDate(date);
+		this.getPk().setRank(rank);
 		this.auction = auction;
 		this.customer = customer;
+		this.date = new Date();
 	}
 
 	public Bid() {
@@ -68,6 +70,15 @@ public class Bid implements Serializable {
 	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+	
 	
 	
 	

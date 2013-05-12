@@ -8,6 +8,7 @@ import edu.app.persistence.Customer;
 @Local
 public interface BidServiceLocal {
 	
+	Integer highestRank(Auction auction);
 	void placeBid(Customer customer, Auction auction);
 	Customer findOwner(Auction auction);
 	

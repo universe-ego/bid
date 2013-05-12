@@ -95,7 +95,7 @@ public class Auction implements Serializable {
 	}
 	
 	
-
+	@Column(name="current_price")
 	public double getCurrentPrice() {
 		return currentPrice;
 	}
